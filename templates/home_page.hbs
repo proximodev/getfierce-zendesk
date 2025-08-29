@@ -48,11 +48,12 @@
 
     {{#if promoted_articles}}
       <section class="articles">
-        <h2>Trending Articles</h2>
+        <h2>Trending</h2>
         <ul class="article-list promoted-articles">
           {{#each promoted_articles}}
             <li class="promoted-articles-item">
               <a href="{{url}}">
+                {{date}}
                 {{title}}
                 {{#if internal}}
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" focusable="false" viewBox="0 0 16 16" class="icon-lock" title="{{t 'internal'}}">
@@ -68,9 +69,4 @@
     {{/if}}
   </section>
 
-  <section class="section home-section activity">
-    {{#if settings.show_recent_activity}}
-      {{recent_activity}}
-    {{/if}}
-  </section>
 </div>
