@@ -251,10 +251,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: $heading_font;
+  font-family: 'Forma DJR Micro', 'Arial', sans-serif;
   font-weight: normal;
   margin-top: 0;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 h1 {
@@ -993,7 +993,8 @@ ul {
 
 /***** Footer *****/
 .footer {
-  border-top: 1px solid #ddd;
+  width: 100%;
+  border-top: 1px solid #2A2A2A;
   margin-top: 60px;
   padding: 30px 0;
 }
@@ -1001,18 +1002,14 @@ ul {
   color: lighten($text_color, 20%);
 }
 .footer-inner {
-  max-width: 1160px;
+  width: 100%;
+  max-width: 1340px;
   margin: 0 auto;
-  padding: 0 5%;
+  padding: 0 30px;
   display: flex;
   justify-content: space-between;
 }
-@media (min-width: 1160px) {
-  .footer-inner {
-    padding: 0;
-    width: 90%;
-  }
-}
+
 .footer-language-selector button {
   color: lighten($text_color, 20%);
   display: inline-block;
@@ -1202,7 +1199,7 @@ ul {
     justify-content: center;
     text-align: center;
     max-width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
     padding: 0 1rem;
 }
 
@@ -2124,7 +2121,7 @@ ul {
   word-break: break-word;
   word-wrap: break-word;
   display: flow-root;
-  font-family: $text_font;
+  font-family:  'Forma DJR Micro', 'Arial', sans-serif;
   line-height: 1.6;
   overflow-x: auto;
 }
@@ -2433,7 +2430,7 @@ ul {
   content: attr(data-follower-count);
   color: $brand_color;
   display: inline-block;
-  font-family: $heading_font;
+  font-family: 'Forma DJR Micro', 'Arial', sans-serif;
   margin-left: 15px;
   padding-left: 10px;
   position: absolute;
@@ -2665,7 +2662,7 @@ ul {
   margin-bottom: 30px;
 }
 .post-content {
-  font-family: $text_font;
+  font-family: 'Forma DJR Micro', 'Arial', sans-serif;
   line-height: 1.6;
   word-break: break-word;
 }
@@ -4394,7 +4391,7 @@ html[lang|=zh] .search-results-description em {
 .notification {
   border: 1px solid;
   display: table;
-  font-family: sans-serif;
+  font-family:  'Forma DJR Micro', 'Arial', sans-serif;
   font-size: 12px;
   padding: 13px 15px;
   transition: height 0.2s;
@@ -4708,8 +4705,6 @@ zd-summary-block {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 40px 5%;
-  background-color: #1a1d23;
   color: #e5e7eb;
 }
 
@@ -4793,6 +4788,7 @@ zd-summary-block {
     flex: 1 0 640px;
     width: 100%;
     max-width: 640px;
+    padding: 0px 40px;
     text-align: left;
     border-bottom: 1px solid #8F8F8F;
     border-radius: 0;
@@ -4818,15 +4814,16 @@ zd-summary-block {
 }
 
 .blocks-item-link {
-    color: $brand_color;
+    color: rgba(247, 252, 252, 1);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
     flex: 1;
     height: 175px;
     padding: 0px;
     border-radius: inherit;
+    align-items: center;
 }
+
 .blocks-item-link:visited,
 .blocks-item-link:hover,
 .blocks-item-link:active {
@@ -4854,6 +4851,47 @@ zd-summary-block {
 .blocks-item-description:not(:empty) {
     margin-top: 8px;                 /* override: tighter spacing when present */
 }
+
+
+/* icons */
+.category-icon {
+    width: 96px;
+    height: 96px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-right: 35px;
+}
+
+.category-icon-43104865280915 {
+    background-image: url($assets-icon-getting-started-svg);
+}
+
+.category-icon-43104904592787 {
+    background-image: url($assets-icon-account-management-svg);
+}
+
+.category-icon-43104899872659 {
+    background-image: url($assets-icon-account-security-svg);
+}
+
+.category-icon-43104893515795 {
+    background-image: url($assets-icon-galaxyone-cash-svg);
+}
+
+.category-icon-43104907277331 {
+    background-image: url($assets-icon-galaxyone-brokerage-svg);
+}
+
+.category-icon-43104902228755 {
+    background-image: url($assets-icon-galaxyone-crypto-svg);
+}
+
+.category-icon-43104969098899 {
+    background-image: url($assets-icon-galaxyone-premium-yield-svg);
+}
+
 
 .search {
   margin-top: 0;
@@ -4941,7 +4979,6 @@ button[data-testid="launcher-button"] {
   line-height: 1.4;
   color: #aaaaaa;
   margin-top: 20px;
-  max-width: 1000px;
 }
 .footer-disclosures p {
   margin-bottom: 10px;
