@@ -53,7 +53,7 @@
           {{#each promoted_articles}}
             <li class="promoted-articles-item">
               <a href="{{url}}">
-                {{date}}
+                <div class="article-date">{{date updated_at format="medium"}}</div>
                 {{title}}
                 {{#if internal}}
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" focusable="false" viewBox="0 0 16 16" class="icon-lock" title="{{t 'internal'}}">
