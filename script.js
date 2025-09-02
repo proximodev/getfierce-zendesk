@@ -658,4 +658,99 @@
     }
   });
 
+  (function () {
+    // Copenhagen defaults: category tiles (home), page titles, etc.
+    const selectors = [
+      '.blocks-item-title',   // home_page.hbs category tiles
+      '.page-title',          // category/section page <h1>
+    ].join(',');
+
+    // Remove leading emoji(s) + optional space
+    const stripEmojiPrefix = (s) =>
+        s.replace(/^\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic})*\s*/u, '');
+
+    function clean() {
+      document.querySelectorAll(selectors).forEach((el) => {
+        const original = el.textContent || '';
+        const cleaned = stripEmojiPrefix(original);
+        if (cleaned !== original) el.textContent = cleaned;
+      });
+    }
+
+    document.readyState === 'loading'
+        ? document.addEventListener('DOMContentLoaded', clean)
+        : clean();
+  })();
+
+})();
+
+
+(function () {
+  // 1) Update these selectors if you've customized your theme
+  const selectors = [
+    '.blocks-item-title',        // Home category tiles (text)
+    '.blocks-item-title a',      // Home category tiles (link)
+    '.page-title',               // H1 on category/section/article pages
+    '.category-list .category-list-title',
+    '.section-list .section-list-title',
+    '.article-list .article-list-link'
+  ].join(',');
+
+  // 2) Robust stripper: tries Unicode first; falls back if unsupported
+  const unicodeRe = (() => {
+    try {
+      return new RegExp('^[\\p{Extended_Pictographic}\\p{S}\\p{P}\\s]+', 'u'); // emoji/symbol/punct/space
+    } catch (_) {
+      return null;
+    }
+  })();
+  const fallbackRe = /^[^\w]+/; // broad fallback
+
+  const strip = (s) => {
+    if (!s) return s;
+    let out = s;
+    if (unicodeRe) out = out.replace(unicodeRe, '');
+    else out = out.replace(fallbackRe, '');
+    return out.trim();
+  };
+
+  function cleanOnce(root = document) {
+    root.querySelectorAll(selectors).forEach((el) => {
+      const orig = el.textContent || '';
+      const cleaned = strip(orig);
+      if (cleaned && cleaned !== orig) {
+        el.textContent = cleaned;
+      }
+    });
+  }
+
+  // Run immediately + on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => cleanOnce());
+  } else {
+    cleanOnce();
+  }
+
+  // 3) Handle SPA-ish nav / async loads
+  const mo = new MutationObserver((muts) => {
+    for (const m of muts) {
+      if (m.addedNodes && m.addedNodes.length) {
+        m.addedNodes.forEach((n) => {
+          if (n.nodeType === 1) cleanOnce(n);
+        });
+      }
+    }
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+
+  // 4) Optional debug: uncomment to log any changes
+  // window._zdDebugStrip = true;
+  // if (window._zdDebugStrip) {
+  //   const _origStrip = strip;
+  //   strip = (s) => {
+  //     const out = _origStrip(s);
+  //     if (out !== s) console.log('[ZD strip]', { from: s, to: out });
+  //     return out;
+  //   };
+  // }
 })();

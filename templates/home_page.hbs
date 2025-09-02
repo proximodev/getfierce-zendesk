@@ -24,15 +24,17 @@
             {{#if ../has_multiple_categories}}
               <li class="blocks-item">
                 <a href='{{url}}' class="blocks-item-link">
-                  <div class="category-icon category-icon-{{ id }}"></div>
-                  <span class="blocks-item-title">{{name}}</span>
+                  <div class="category-icon category-icon-{{ id }}" alt="{{name}}"></div>
+                  <span class="blocks-item-title">
+                      {{name}}
+                  </span>
                 </a>
               </li>
             {{else}}
               {{#each sections}}
                 <li class="blocks-item">
                   <a href='{{url}}' class="blocks-item-link">
-                    <div class="category-icon category-icon-{{ ../id }}"></div>
+                    <div class="category-icon category-icon-{{ ../id }}"  alt="{{name}}"></div>
                     <span class="blocks-item-title">
                       {{name}}
                     </span>
