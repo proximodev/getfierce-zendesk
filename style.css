@@ -300,10 +300,13 @@ section.articles h2 { font-size: 56px;}
 a {
   color: $link_color;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
+
 a:visited {
   color: $visited_link_color;
 }
+
 a:hover, a:active, a:focus {
   text-decoration: underline;
 }
@@ -436,6 +439,14 @@ header .button {
   width: auto;
 }
 
+header .button:hover {
+  color: #000;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 3px 0px;
+  opacity: 1;
+}
+
+
 @media (max-width: 768px) {
 
   header .button {
@@ -446,6 +457,7 @@ header .button {
 }
 
 @media (min-width: 768px) {
+
   .button, .pagination-next-link, .pagination-prev-link, .pagination-first-link, .pagination-last-link, .subscriptions-subscribe button, .requests-table-toolbar .organization-subscribe button, .community-follow button, .article-subscribe button, .section-subscribe button, .split-button button {
     width: auto;
   }
@@ -455,7 +467,12 @@ header .button {
     background-color: #FFFFFF;
     border-color: #FFFFFF;
     color: #000000;
+      transition: opacity 100ms ease;
   }
+
+    .button.request:hover {
+        opacity: .9;
+    }
 
 
 }
@@ -718,19 +735,22 @@ header .button {
 }
 
 /***** Header *****/
-
 .header {
-  width: 100%;
-  padding: 17px 32px;
-  border-bottom: 1px solid #222125;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    border-bottom: 1px solid #222125;
+    background: #000;
 }
 
 .header-inner {
-    margin: 0 auto;
     position: relative;
-    max-width: 1160px;
+    margin: 0 auto;
+    max-width: 1544px;
     align-items: center;
     display: flex;
+    padding: 17px 32px;
     justify-content: space-between;
 }
 
@@ -1354,7 +1374,7 @@ section.articles {
 .promoted-articles-item {
   border-left: 1px solid #374151;
   padding: 0px 40px;
-  width: 320px;
+  width: 33%;
   height: 116px;
   display: flex;
   flex-direction: column;       /* vertical alignment */
@@ -4758,12 +4778,15 @@ zd-summary-block {
 }
 
 .footer-inner {
-  width: 100%;
-  max-width: 1340px;
-  margin: 0 auto;
-  padding: 0 30px;
-  display: flex;
-  justify-content: space-between;
+    width: 100%;
+    max-width: 1544px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: #e5e7eb;
 }
 
 .footer-language-selector button {
@@ -4776,13 +4799,6 @@ zd-summary-block {
   color: lighten($text_color, 20%);
 }
 
-.footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  color: #e5e7eb;
-}
 
 .footer-links-wrapper {
   display: flex;
@@ -4816,7 +4832,9 @@ zd-summary-block {
   color: #ADADAD;
 }
 
-
+.footer .footer-links a:hover {
+  color: #ffffff;
+}
 
 .footer-links.left {
   width: 60%;
@@ -4829,6 +4847,7 @@ zd-summary-block {
 .footer-links.left > a.social {
     margin: 0;
     line-height: 0;
+    transition: color 0.3s ease;
 }
 
 .footer-links.left > a.social:hover {
@@ -4836,10 +4855,9 @@ zd-summary-block {
     background-color: #ffffff;
 }
 
-
 .footer-links.left > a.social > img {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     transition: filter 0.3s ease;
 }
 
@@ -4892,6 +4910,38 @@ zd-summary-block {
   margin-top: 20px;
 }
 
+@media (max-width: 1024px) {
+
+    .footer-links-wrapper {
+        display: block;
+    }
+
+    .footer-links.left {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .footer-links.right {
+        width: 100%;
+        max-width: 100%;
+        flex: 1 0 0px;
+    }
+
+    .footer-links.right .col {
+        width: 100%;
+        max-width: 220px;
+    }
+
+
+
+}
+
+@media (max-width: 787px) {
+    .footer-links.right {
+        flex-direction: column;
+        gap: 0px;
+    }
+}
 
 .powered-by-zendesk {
   display: none !important;
@@ -4918,7 +4968,7 @@ section.categories.blocks {
 .blocks-item {
     box-sizing: border-box;
     display: flex;
-    flex: 1 0 640px;
+    flex: 1 0 50%;
     width: 100%;
     max-width: 640px;
     padding: 0px 40px;
@@ -5025,11 +5075,51 @@ section.categories.blocks {
     background-image: url($assets-icon-galaxyone-premium-yield-svg);
 }
 
-
-.search {
-  margin-top: 0;
+.tile-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
 }
 
+.blocks-item-title {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@media (max-width: 1024px) {
+
+    .blocks-item {
+        flex: 1 0 100%;
+    }
+
+    .blocks-item:nth-child(odd):not(:last-child) {
+        border-right: none;
+    }
+
+    .blocks-item-link {
+        height: 140px;
+    }
+
+    .category-icon {
+        margin-right: 20px;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .promoted-articles-item {
+        width: 100%;
+        align-items: baseline;
+        height: 100px;
+    }
+
+}
+
+.search {
+    margin-top: 0;
+}
 /* Hide Zendesk Chat widget if it's still hanging around */
 #launcher, 
 .zEWidget-launcher, 
@@ -5068,18 +5158,6 @@ button[data-testid="launcher-button"] {
 .search-results-sidebar .is-selected {
   background-color: #5C01BA;
   color: #ffffff !important;
-}
-
-.tile-icon {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-}
-
-.blocks-item-title {
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .search-container {
