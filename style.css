@@ -60,6 +60,7 @@ body {
 }
 
 main {
+  padding-top: 160px;
   display: block;
 }
 
@@ -225,6 +226,18 @@ template {
   display: none;
 }
 
+@media (max-width: 1024px) {
+  main {
+    padding-top: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 80px;
+  }
+}
+
 /***** Base *****/
 * {
   box-sizing: border-box;
@@ -246,6 +259,10 @@ body {
 
 /** typography **/
 
+p {
+  margin: 0 0 20px;
+}
+
 h1,
 h2,
 h3,
@@ -256,6 +273,7 @@ h6 {
   font-weight: normal;
   margin-top: 0;
   line-height: 1.1;
+  margin-bottom: 20px;
 }
 
 h1 { font-size: 52px; }
@@ -272,28 +290,6 @@ section.articles h2 { font-size: 56px;}
   h4 { font-size: 20px; }
 
   section.articles h2 { font-size: 44px;}
-
-}
-
-@media (max-width: 767px) {
-  h1 { font-size: 32px; }
-  h2 { font-size: 26px; }
-  h3 { font-size: 22px; }
-  h4 { font-size: 18px; }
-
-  section.articles h2 { font-size: 34px;}
-
-}
-
-@media (max-width: 1024px) {
-
-  h1 { font-size: }
-
-}
-
-@media (max-width: 768px) {
-
-
 
 }
 
@@ -364,9 +360,9 @@ a:hover, a:active, a:focus {
 
 .container {
   width: 100%;
-  max-width: 1340px;
+  max-width: 1344px;
   margin: 0 auto;
-  padding: 0 30px;
+  padding: 0 32px;
 }
 
 .container-divider {
@@ -432,7 +428,11 @@ ul {
 }
 
 .button.request {
-  display: none;
+  display: inline-block;
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #000000;
+  transition: opacity 100ms ease;
 }
 
 header .button {
@@ -454,6 +454,10 @@ header .button:hover {
     padding: 0px 20px;
   }
 
+  header .button.request {
+    display: none;
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -461,15 +465,6 @@ header .button:hover {
   .button, .pagination-next-link, .pagination-prev-link, .pagination-first-link, .pagination-last-link, .subscriptions-subscribe button, .requests-table-toolbar .organization-subscribe button, .community-follow button, .article-subscribe button, .section-subscribe button, .split-button button {
     width: auto;
   }
-
-  .button.request {
-    display: inline-block;
-    background-color: #FFFFFF;
-    border-color: #FFFFFF;
-    color: #000000;
-      transition: opacity 100ms ease;
-  }
-
     .button.request:hover {
         opacity: .9;
     }
@@ -482,7 +477,7 @@ header .button:hover {
 }
 .button:hover, .pagination-next-link:hover, .pagination-prev-link:hover, .pagination-first-link:hover, .pagination-last-link:hover, .subscriptions-subscribe button:hover, .requests-table-toolbar .organization-subscribe button:hover, .community-follow button:hover, .article-subscribe button:hover, .section-subscribe button:hover, .split-button button:hover, .button:active, .pagination-next-link:active, .pagination-prev-link:active, .pagination-first-link:active, .pagination-last-link:active, .subscriptions-subscribe button:active, .requests-table-toolbar .organization-subscribe button:active, .community-follow button:active, .article-subscribe button:active, .section-subscribe button:active, .split-button button:active, .button:focus, .pagination-next-link:focus, .pagination-prev-link:focus, .pagination-first-link:focus, .pagination-last-link:focus, .subscriptions-subscribe button:focus, .requests-table-toolbar .organization-subscribe button:focus, .community-follow button:focus, .article-subscribe button:focus, .section-subscribe button:focus, .split-button button:focus, .button.button-primary, .button-primary.pagination-next-link, .button-primary.pagination-prev-link, .button-primary.pagination-first-link, .button-primary.pagination-last-link, .subscriptions-subscribe button.button-primary, .subscriptions-subscribe button[data-selected=true], .requests-table-toolbar .organization-subscribe button.button-primary, .requests-table-toolbar .organization-subscribe button[data-selected=true], .community-follow button.button-primary, .article-subscribe button.button-primary, .article-subscribe button[data-selected=true], .section-subscribe button.button-primary, .section-subscribe button[data-selected=true], .split-button button.button-primary {
   background-color: $brand_color;
-  color: $brand_text_color;
+  color: #000000;
   text-decoration: none;
 }
 .button.button-primary:hover, .button-primary.pagination-next-link:hover, .button-primary.pagination-prev-link:hover, .button-primary.pagination-first-link:hover, .button-primary.pagination-last-link:hover, .subscriptions-subscribe button.button-primary:hover, .subscriptions-subscribe button[data-selected=true]:hover, .requests-table-toolbar .organization-subscribe button.button-primary:hover, .requests-table-toolbar .organization-subscribe button[data-selected=true]:hover, .community-follow button.button-primary:hover, .article-subscribe button.button-primary:hover, .article-subscribe button[data-selected=true]:hover, .section-subscribe button.button-primary:hover, .section-subscribe button[data-selected=true]:hover, .split-button button:hover, .button.button-primary:focus, .button-primary.pagination-next-link:focus, .button-primary.pagination-prev-link:focus, .button-primary.pagination-first-link:focus, .button-primary.pagination-last-link:focus, .subscriptions-subscribe button.button-primary:focus, .subscriptions-subscribe button[data-selected=true]:focus, .requests-table-toolbar .organization-subscribe button.button-primary:focus, .requests-table-toolbar .organization-subscribe button[data-selected=true]:focus, .community-follow button.button-primary:focus, .article-subscribe button.button-primary:focus, .article-subscribe button[data-selected=true]:focus, .section-subscribe button.button-primary:focus, .section-subscribe button[data-selected=true]:focus, .split-button button.button-primary:focus, .button.button-primary:active, .button-primary.pagination-next-link:active, .button-primary.pagination-prev-link:active, .button-primary.pagination-first-link:active, .button-primary.pagination-last-link:active, .subscriptions-subscribe button.button-primary:active, .subscriptions-subscribe button[data-selected=true]:active, .requests-table-toolbar .organization-subscribe button.button-primary:active, .requests-table-toolbar .organization-subscribe button[data-selected=true]:active, .community-follow button.button-primary:active, .article-subscribe button.button-primary:active, .article-subscribe button[data-selected=true]:active, .section-subscribe button.button-primary:active, .section-subscribe button[data-selected=true]:active, .split-button button.button-primary:active {
@@ -1072,29 +1067,27 @@ header .button:hover {
 }
 
 /***** Breadcrumbs *****/
-.breadcrumbs {
-  margin: 0 0 15px 0;
+ol.breadcrumbs {
   padding: 0;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px 0px 20px;
 }
-@media (min-width: 768px) {
-  .breadcrumbs {
-    margin: 0;
-  }
+
+.breadcrumbs li, .breadcrumbs li a {
+  font-size: 20px;
+  color: #ADADAD;
 }
-.breadcrumbs li {
-  color: lighten($text_color, 20%);
-  font-size: 13px;
-  max-width: 450px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 .breadcrumbs li + li::before {
-  content: ">";
+  content: "/";
   margin: 0 4px;
 }
-.breadcrumbs li a:visited {
-  color: $link_color;
+.breadcrumbs li a:hover {
+  color: #FFFFFF;
 }
 
 /***** Search field *****/
@@ -1230,7 +1223,6 @@ header .button:hover {
 .hero {
     width: 100%;
     background: none !important;
-    padding: 120px 20px 40px;
     text-align: center;
 }
 
@@ -1271,7 +1263,6 @@ header .button:hover {
 
 }
 
-
 @media (max-width: 768px) {
 
   .hero-heading {
@@ -1280,24 +1271,12 @@ header .button:hover {
 
 }
 
-
-
 .page-header {
-  display: flex;
-  flex-direction: column;
+  display: block;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 10px 0;
 }
-@media (min-width: 768px) {
-  .page-header {
-    align-items: baseline;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin: 0;
-  }
-}
+
 .page-header .section-subscribe {
   flex-shrink: 0;
   margin-bottom: 10px;
@@ -1309,13 +1288,15 @@ header .button:hover {
 }
 .page-header h1 {
   flex-grow: 1;
-  margin-bottom: 10px;
+  margin-bottom: 75px;
 }
+
 .page-header-description {
   font-style: italic;
   margin: 0 0 30px 0;
   word-break: break-word;
 }
+
 @media (min-width: 1024px) {
   .page-header-description {
     flex-basis: 100%;
@@ -1338,6 +1319,7 @@ header .button:hover {
   justify-content: space-between;
   margin-bottom: 55px;
 }
+
 @media (min-width: 768px) {
   .sub-nav {
     flex-direction: row;
@@ -1539,60 +1521,104 @@ section.articles {
   margin-right: 3px;
 }
 
-/***** Category pages *****/
-.category-container {
+/***** Category. Section and Article pages *****/
+.category-container, .section-container, .article-container {
+  align-items: baseline;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 80px;
 }
-.category-content {
+
+.category-content, .section-content, .article-content {
   flex: 1;
   max-width: 100%;
 }
-@media (min-width: 1024px) {
-  .category-content {
-    flex: 0 0 80%;
+
+.container .all-categories {
+  width: 25%;
+  padding-right: 80px;
+  border-right: 1px solid #2A2A2A;
+}
+
+.container .all-categories ul li, .container .all-categories .toc-title {
+  display: block;
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+.container .all-categories .toc-item .toc-title {
+  position: relative;
+  padding-right: 1.25rem;
+}
+
+.container .all-categories .toc-item .toc-title::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  background: url('$assets-toc-caret-svg') no-repeat;
+  background-size: contain;
+}
+
+.container .all-categories .toc-item.is-active > .toc-title::after {
+  top: -3px;
+  rotate: 180deg;
+}
+
+.container .all-categories > ul > li.is-active span {
+  font-weight: 600;
+}
+
+.container .all-categories ul li a {
+  font-size: 16px;
+  line-height: 1.2;
+  color: #ADADAD;
+}
+
+.container .all-categories ul li a:hover  {
+  color: #FFFFFF;
+}
+
+.container .all-categories ul.toc-articles  {
+  padding-left: 20px;
+}
+
+.category-content .article-wrapper h2,
+.category-content .article-wrapper  ul li,
+.category-content .article-wrapper a.see-all-articles {
+  margin-bottom: 24px;
+  font-size: 24px;
+  display: block;
+}
+
+.category-content .article-wrapper h2
+{
+  font-weight: 600;
+}
+
+.category-content .article-wrapper h2:not(:first-child) {
+  margin-top: 60px;
+}
+
+@media (max-width: 768px) {
+  .container .all-categories {
+    display: none;
   }
 }
 
-.section-tree {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-@media (min-width: 768px) {
-  .section-tree {
-    flex-direction: row;
-  }
-}
-.section-tree .section {
-  flex: initial;
-  max-width: 100%;
-}
-@media (min-width: 768px) {
-  .section-tree .section {
-    flex: 0 0 45%; /* Two columns for tablet and desktop. Leaving 5% separation between columns */
-  }
-}
-.section-tree-title {
-  margin-bottom: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-.section-tree-title a {
-  color: $text_color;
-}
-.section-tree .see-all-articles {
-  display: block;
-  padding: 15px 0;
-}
+/***** Article pages *****/
 
 .article-list-item {
   font-size: 16px;
-  padding: 15px 0;
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.article-wrapper h2 a,
 .article-list-item a {
   color: $text_color;
 }
@@ -1604,8 +1630,7 @@ section.articles {
 
 /***** Section pages *****/
 .section-container {
-  display: flex;
-  justify-content: flex-end;
+
 }
 .section-content {
   flex: 1;
@@ -1647,30 +1672,13 @@ section.articles {
 
 /***** Article *****/
 .article {
-  /*
-  * The article grid is defined this way to optimize readability:
-  * Sidebar | Content | Free space
-  * 17%     | 66%     | 17%
-  */
   flex: 1 0 auto;
-}
-@media (min-width: 1024px) {
-  .article {
-    flex: 1 0 66%;
-    max-width: 66%;
-    min-width: 640px;
-    padding: 0 30px;
-  }
 }
 .article-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
-@media (min-width: 1024px) {
-  .article-container {
-    flex-direction: row;
-  }
-}
+
 .article-header {
   align-items: flex-start;
   display: flex;
@@ -1834,17 +1842,17 @@ section.articles {
 .article-body > p:last-child {
   margin-bottom: 0;
 }
-.article-content {
-  line-height: 1.6;
-  margin: 40px 0;
-  word-wrap: break-word;
-}
+
 .article-footer {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 20px;
+  padding: 40px 0;
+  border-top: 1px solid #2A2A2A;
+  border-bottom: 1px solid #2A2A2A;
+  margin: 50px 0;
 }
+
 .article-comment-count {
   color: lighten($text_color, 20%);
 }
@@ -1864,19 +1872,11 @@ section.articles {
   margin-bottom: 20px;
   padding: 0;
 }
-@media (min-width: 1024px) {
-  .article-sidebar {
-    border: 0;
-    flex: 0 0 17%;
-    height: auto;
-    max-width: 17%;
-  }
-}
+
 .article-relatives {
-  border-top: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding: 0 0 20px 0;
 }
 @media (min-width: 768px) {
   .article-relatives {
@@ -1898,10 +1898,13 @@ section.articles {
   }
 }
 .article-votes {
-  border-top: 1px solid #ddd;
-  padding: 30px 0;
-  text-align: center;
+
 }
+
+.article-votes-controls {
+  margin: 15px 0 12px;
+}
+
 .article-votes-question {
   font-size: 15px;
   font-weight: normal;
@@ -1929,11 +1932,7 @@ section.articles {
 .article-return-to-top {
   border-top: 1px solid #87929D;
 }
-@media (min-width: 1024px) {
-  .article-return-to-top {
-    display: none;
-  }
-}
+
 .article-return-to-top a {
   color: $text_color;
   display: block;
@@ -1952,6 +1951,17 @@ section.articles {
 .article td > p:last-child,
 .article th > p:last-child {
   margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .article-footer {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+  .article-votes-controls {
+    margin: 10px 0 5px;
+  }
 }
 
 .sidenav-title {

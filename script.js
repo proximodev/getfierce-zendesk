@@ -493,7 +493,6 @@
   }
 
   // Forms
-
   window.addEventListener("DOMContentLoaded", () => {
     // In some cases we should preserve focus after page reload
     returnFocus();
@@ -685,12 +684,60 @@
 })();
 
 
+// Inject category breadcrumb on article and section pages
+document.addEventListener("DOMContentLoaded", async () => {
+  const catBreadcrumb = document.getElementById("category-breadcrumb");
+  if (!catBreadcrumb) return;
+
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const locale = (path.match(/\/hc\/([a-z-]+)\//i)?.[1] || document.documentElement.lang || "en-us").toLowerCase();
+
+  async function fetchJSON(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.status + " " + url);
+    return res.json();
+  }
+
+  async function getCategoryForCurrentPage() {
+    // /sections/12345-...
+    const secMatch = path.match(/\/sections\/(\d+)/);
+    if (secMatch) {
+      const { section } = await fetchJSON(`/api/v2/help_center/${locale}/sections/${secMatch[1]}.json`);
+      const { category } = await fetchJSON(`/api/v2/help_center/${locale}/categories/${section.category_id}.json`);
+      return category;
+    }
+
+    // /articles/67890-...
+    const artMatch = path.match(/\/articles\/(\d+)/);
+    if (artMatch) {
+      const { article } = await fetchJSON(`/api/v2/help_center/${locale}/articles/${artMatch[1]}.json`);
+      const { section } = await fetchJSON(`/api/v2/help_center/${locale}/sections/${article.section_id}.json`);
+      const { category } = await fetchJSON(`/api/v2/help_center/${locale}/categories/${section.category_id}.json`);
+      return category;
+    }
+
+    return null;
+  }
+
+  try {
+    const category = await getCategoryForCurrentPage();
+    if (category) {
+      catBreadcrumb.innerHTML = `<a href="${category.html_url}">${category.name}</a>`;
+    }
+  } catch (e) {
+    console.error("Breadcrumb build failed:", e);
+  }
+});
+
 (function () {
-  // 1) Update these selectors if you've customized your theme
   const selectors = [
-    '.blocks-item-title',        // Home category tiles (text)
-    '.blocks-item-title a',      // Home category tiles (link)
-    '.page-title',               // H1 on category/section/article pages
+    '.blocks-item-title',
+    '.toc-item span',
+    '.toc-item a span',
+    '.toc-title a',
+    '.breadcrumbs li',
+    '.breadcrumbs li a',
+    '.page-title',
     '.category-list .category-list-title',
     '.section-list .section-list-title',
     '.article-list .article-list-link'
@@ -743,14 +790,90 @@
   });
   mo.observe(document.documentElement, { childList: true, subtree: true });
 
-  // 4) Optional debug: uncomment to log any changes
-  // window._zdDebugStrip = true;
-  // if (window._zdDebugStrip) {
-  //   const _origStrip = strip;
-  //   strip = (s) => {
-  //     const out = _origStrip(s);
-  //     if (out !== s) console.log('[ZD strip]', { from: s, to: out });
-  //     return out;
-  //   };
-  // }
 })();
+
+//Output TOC with articles
+document.addEventListener("DOMContentLoaded", () => {
+  const list = document.getElementById("all-categories-list"); if (!list) return;
+
+  const locale = (location.pathname.match(/\/hc\/([a-z-]+)\//i)?.[1] || document.documentElement.lang || "en-us").toLowerCase();
+  const curPath = new URL(location.href).pathname.replace(/\/+$/,"");
+
+  const getAll = async (url) => {
+    const out = [];
+    for (let next = url; next;) {
+      const r = await fetch(next);
+      if (!r.ok) throw new Error(`${r.status} ${next}`);
+      const j = await r.json();
+      const key = Object.keys(j).find(k => Array.isArray(j[k]));
+      if (key) out.push(...j[key]);
+      next = j.next_page;
+    }
+    return out;
+  };
+
+  const getCurrentCategoryId = async () => {
+    const cat = curPath.match(/\/categories\/(\d+)/)?.[1];
+    if (cat) return cat;
+    const sec = curPath.match(/\/sections\/(\d+)/)?.[1];
+    if (sec) {
+      const { section } = await (await fetch(`/api/v2/help_center/${locale}/sections/${sec}.json`)).json();
+      return String(section.category_id);
+    }
+    const art = curPath.match(/\/articles\/(\d+)/)?.[1];
+    if (art) {
+      const { article } = await (await fetch(`/api/v2/help_center/${locale}/articles/${art}.json`)).json();
+      const { section } = await (await fetch(`/api/v2/help_center/${locale}/sections/${article.section_id}.json`)).json();
+      return String(section.category_id);
+    }
+    return null;
+  };
+
+  const renderCats = (cats, currentId) => {
+    list.innerHTML = cats.map(c => {
+      if (String(c.id) === String(currentId)) {
+        return `<li class="toc-item is-active" data-cat-id="${c.id}" aria-current="page">
+                  <span class="toc-title">${c.name}</span>
+                  <ul class="toc-articles"></ul>
+                </li>`;
+      }
+      return `<li class="toc-item"><a href="${c.html_url}" class="toc-item-link"><span class="toc-title">${c.name}</span></a></li>`;
+    }).join("");
+  };
+
+  const expandCurrent = async (catId) => {
+    if (!catId) return;
+    const mount = list.querySelector(`li[data-cat-id="${catId}"] ul.toc-articles`); if (!mount) return;
+
+    // Gather all articles in the category (flattened)
+    const sections = await getAll(`/api/v2/help_center/${locale}/categories/${catId}/sections.json?per_page=100`);
+    const articles = (await Promise.all(sections.map(s =>
+        getAll(`/api/v2/help_center/${locale}/sections/${s.id}/articles.json?per_page=100`)
+    ))).flat();
+
+    // Render, mark current as active and omit link
+    mount.innerHTML = articles.map(a => {
+      const path = new URL(a.html_url, location.origin).pathname.replace(/\/+$/,"");
+      const isCurrent = path === curPath;
+      return `<li class="toc-article">` +
+          (isCurrent
+              ? `<span class="is-active" aria-current="page">${a.title}</span>`
+              : `<a href="${a.html_url}">${a.title}</a>`) +
+          `</li>`;
+    }).join("");
+  };
+
+  (async () => {
+    try {
+      const [cats, currentId] = await Promise.all([
+        getAll(`/api/v2/help_center/${locale}/categories.json?per_page=100&sort_by=position`),
+        getCurrentCategoryId()
+      ]);
+      renderCats(cats, currentId);
+      await expandCurrent(currentId);
+    } catch (e) {
+      console.error("[TOC] build failed:", e);
+      list.innerHTML = '<li class="toc-error">Unable to load categories/articles.</li>';
+    }
+  })();
+});
