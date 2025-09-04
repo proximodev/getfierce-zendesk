@@ -1,21 +1,10 @@
-<div class="container-divider"></div>
 <div class="container">
-  <div class="sub-nav">
-    {{breadcrumbs}}
-    <div class="search-container">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" focusable="false" viewBox="0 0 12 12" class="search-icon" aria-hidden="true">
-        <circle cx="4.5" cy="4.5" r="4" fill="none" stroke="currentColor"/>
-        <path stroke="currentColor" stroke-linecap="round" d="M11 11L7.5 7.5"/>
-      </svg>
-      {{search submit=false}}
-    </div>
-  </div>
 
   <div class="search-results">
+
     <aside class="search-results-sidebar">
       {{#if source_filters}}
         <section class="filters-in-section collapsible-sidebar">
-          <h3 class="collapsible-sidebar-title sidenav-title">{{t 'filter_source'}}</h3>
           <ul class="multibrand-filter-list">
             {{#each source_filters}}
               <li>
@@ -31,7 +20,6 @@
 
       {{#if type_filters}}
         <section class="filters-in-section collapsible-sidebar">
-          <h3 class="collapsible-sidebar-title sidenav-title">{{t 'filter_type'}}</h3>
           <ul class="multibrand-filter-list">
             {{#each type_filters}}
               <li>
@@ -47,14 +35,6 @@
 
       {{#if subfilters}}
         <section class="filters-in-section collapsible-sidebar">
-          <h3 class="collapsible-sidebar-title sidenav-title">
-            {{#is current_filter.identifier 'knowledge_base'}}
-              {{t 'filter_by_category'}}
-            {{/is}}
-            {{#is current_filter.identifier 'community'}}
-              {{t 'filter_by_topic'}}
-            {{/is}}
-          </h3>
           <ul class="multibrand-filter-list">
             {{#each subfilters}}
               <li>
@@ -70,7 +50,6 @@
 
       {{#if content_tag_filters}}
         <section class="filters-in-section collapsible-sidebar">
-          <h3 class="collapsible-sidebar-title sidenav-title">{{t 'filter_content_tag'}}</h3>
           <ul class="multibrand-filter-list">
             {{#each content_tag_filters}}
               <li>
@@ -86,32 +65,52 @@
     </aside>
 
     <section id="main-content" class="search-results-column">
+
+        <div class="page-header">
+
+            <div class="search-container results">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" focusable="false" viewBox="0 0 12 12" class="search-icon" aria-hidden="true">
+                    <circle cx="4.5" cy="4.5" r="4" fill="none" stroke="currentColor"/>
+                    <path stroke="currentColor" stroke-linecap="round" d="M11 11L7.5 7.5"/>
+                </svg>
+                {{search submit=false instant=settings.instant_search class='search search-full' placeholder='e.g. How do I fund my GalaxyOne account?'}}
+            </div>
+
+            <ol class="breadcrumbs">
+                <li><a href="/hc/en-us">Help Center</a></li>
+            </ol>
+
+            <h1 class="search-results-subheading">
+                {{#if results}}
+                    {{#is current_filter.identifier 'unified'}}
+                        {{#if content_tag_filters }}
+                            {{#each (filter content_tag_filters on="selected" equals=true)}}
+                                {{t 'results_content_tag' content_tag=name count=../results_count}}
+                            {{/each}}
+                        {{else}}
+                            {{t 'results' query=query count=results_count}}
+                        {{/if}}
+                    {{else}}
+                        {{#if content_tag_filters }}
+                            {{#each (filter content_tag_filters on="selected" equals=true)}}
+                                {{t 'results_content_tag' content_tag=name count=../results_count}}
+                            {{/each}}
+                        {{else}}
+                            {{#unless current_subfilter.identifier}}
+                                {{t 'results' query=query count=results_count}}
+                            {{else}}
+                                {{t 'results_with_scope' query=query count=results_count scope_name=current_subfilter.name}}
+                            {{/unless}}
+                        {{/if}}
+                    {{/is}}
+                {{/if}}
+            </h1>
+
+        </div>
+
       {{generative_answers}}
-      <h1 class="search-results-subheading">
-        {{#if results}}
-          {{#is current_filter.identifier 'unified'}}
-            {{#if content_tag_filters }}
-              {{#each (filter content_tag_filters on="selected" equals=true)}}
-                {{t 'results_content_tag' content_tag=name count=../results_count}}
-              {{/each}}
-            {{else}}
-              {{t 'results' query=query count=results_count}}
-            {{/if}}
-          {{else}}
-            {{#if content_tag_filters }}
-              {{#each (filter content_tag_filters on="selected" equals=true)}}
-                {{t 'results_content_tag' content_tag=name count=../results_count}}
-              {{/each}}
-            {{else}}
-              {{#unless current_subfilter.identifier}}
-                {{t 'results' query=query count=results_count}}
-              {{else}}
-                {{t 'results_with_scope' query=query count=results_count scope_name=current_subfilter.name}}
-              {{/unless}}
-            {{/if}}
-          {{/is}}
-        {{/if}}
-      </h1>
+
+
       {{#if results}}
         <ul class="search-results-list">
           {{#each results}}
@@ -150,13 +149,7 @@
                     </div>
                   </div>
                   <div class="search-result-meta-container">
-                    <nav {{#is type 'article'}}aria-label='{{t 'article_location_with_title' title=title}}'{{/is}}>
-                      <ol class="breadcrumbs search-result-breadcrumbs">
-                        {{#each path_steps}}
-                          <li><a href="{{url}}" target="{{target}}">{{name}}</a></li>
-                        {{/each}}
-                      </ol>
-                    </nav>
+
                   </div>
                 </header>
                 <p class="search-result-description">{{text}}</p>
@@ -175,7 +168,32 @@
           </div>
         </div>
       {{/if}}
+
+      {{pagination}}
+
     </section>
   </div>
-  {{pagination}}
+
+    {{#if promoted_articles}}
+        <section class="articles">
+            <h2>Trending</h2>
+            <ul class="article-list promoted-articles">
+                {{#each promoted_articles}}
+                    <li class="promoted-articles-item">
+                        <a href="{{url}}">
+                            <div class="article-date">{{date updated_at format="medium"}}</div>
+                            {{title}}
+                            {{#if internal}}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" focusable="false" viewBox="0 0 16 16" class="icon-lock" title="{{t 'internal'}}">
+                                    <rect width="12" height="9" x="2" y="7" fill="currentColor" rx="1" ry="1"/>
+                                    <path fill="none" stroke="currentColor" d="M4.5 7.5V4a3.5 3.5 0 017 0v3.5"/>
+                                </svg>
+                            {{/if}}
+                        </a>
+                    </li>
+                {{/each}}
+            </ul>
+        </section>
+    {{/if}}
+
 </div>
