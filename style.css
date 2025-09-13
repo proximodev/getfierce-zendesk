@@ -1453,7 +1453,6 @@ section.articles {
 .community-image {
   min-height: 300px;
   margin-top: 32px;
-  background-image: url($community_image);
   background-position: center;
   background-repeat: no-repeat;
   max-width: 100%;
@@ -2455,7 +2454,6 @@ section.articles {
 
 /***** Community *****/
 .community-hero {
-  background-image: url($community_background_image);
   margin-bottom: 10px;
 }
 
@@ -2754,8 +2752,8 @@ section.articles {
 }
 @media (min-width: 1024px) {
   .post {
-    flex: 1 0 70%;
-    max-width: 70%;
+    flex: 1 0 73%;
+    max-width: 73%;
   }
 }
 .post-container {
@@ -5288,8 +5286,12 @@ button[data-testid="launcher-button"] {
 .search-container {
     position: relative;
     max-width: 450px;
-    margin: 24px auto;
     width: 100%;
+    margin: 0px 0px 75px 0;
+}
+
+.search-container.home {
+    margin: 24px auto;
 }
 
 .search-container.alt {
@@ -5316,6 +5318,12 @@ button[data-testid="launcher-button"] {
 .search-full::placeholder {
   color: #fff;
   opacity: .6;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        margin: 0px 0px 60px 0;
+    }
 }
 
 .footer-disclosures {
